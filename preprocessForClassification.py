@@ -103,7 +103,7 @@ print(outputDf)
 # create a series which holds the training set "classfier". The classifier
 # has the same number of rows as the outputDf has rows
 numRowsInDf = len(outputDf.index)
-ylist = [classification] * numRowsInDf
+ylist = [int(classification)] * numRowsInDf
 y = pd.Series(ylist)
 
 print(y)

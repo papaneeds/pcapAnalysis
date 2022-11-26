@@ -33,7 +33,9 @@ Basically, "0" = "normal network (DNS on)"
            
 python3 preprocessForClassification.py dns_off_network.csv dictionary.csv 15 1 dns_off_dataset.p
 
-Now, we have two datasets. The first dataset has DNS turned on (normal_network_dataset.p). The second dataset has DNS turned off (dns_off_dataset.p). We will now combine these datasets into a single dataset and then feed that into our binary classification algorithm. We do this with the program
+Now, we have two datasets. The first dataset has DNS turned on (normal_network_dataset.p). The second dataset has DNS turned off (dns_off_dataset.p). We will now combine these datasets into a single dataset and then feed that into our binary classification algorithm. We do this with the program binaryClassification_allModels.py. This program reads in the two types of training data ("normal network" and "DNS off") and trains classifiers on the data. It trains all classifiers from scikit learn on the data, then calculates the accuracy of the classification (and prints that out). Finally, it saves the trained models in the <outputTrainedModels>.p file.
+
+python3 binaryClassification_allModels.py normal_network_dataset.p dns_off_dataset.p outputTrainedModels.p
 
 
 
