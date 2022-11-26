@@ -1,10 +1,11 @@
 # This python program pre-processes data for Machine
 # Learning classification
 
-from tracemalloc import start
+from cmath import pi
 import pandas as pd
 import sys
 import datetime
+import pickle
 
 # read in the training data file
 
@@ -12,10 +13,11 @@ import datetime
 # argparse is probably a better way to go, but for now just
 # do this.
 # timeInterval is given in units of seconds
-[program, trainingFilename, dictionaryFilename, timeInterval] = sys.argv
+# classification is an integer
+[program, trainingInputFilename, dictionaryFilename, timeInterval, classification, outputFilename] = sys.argv
 timeInterval = float(timeInterval)
 
-trainingDf = pd.read_csv(trainingFilename)
+trainingDf = pd.read_csv(trainingInputFilename)
 # first, replace all the NaN values with ''
 trainingDf['notes'].fillna('', inplace=True)
 print(trainingDf.head())
@@ -27,7 +29,7 @@ line = fp.readline()
 cnt = 0
 while line:
     dictionary[cnt] = line.strip()
-    print("Line {}: {}".format(cnt, line.strip()))
+    print("Line {}: {}".format(cnt, dictionary[cnt]))
     line = fp.readline()
     cnt += 1
 
@@ -95,7 +97,25 @@ for index, row in trainingDf.iterrows():
             #nextRow[dictionary[key]] = [1]
             nextRow[key] = [1]
 
+
 print(outputDf)
+
+# create a series which holds the training set "classfier". The classifier
+# has the same number of rows as the outputDf has rows
+numRowsInDf = len(outputDf.index)
+ylist = [classification] * numRowsInDf
+y = pd.Series(ylist)
+
+print(y)
+
+# write this as a dataset to file
+
+dataSet = {}
+dataSet['data'] = outputDf
+dataSet['target'] = y
+
+outputFile = open(outputFilename, 'wb')
+pickle.dump(dataSet, file=outputFile)
 
 
 

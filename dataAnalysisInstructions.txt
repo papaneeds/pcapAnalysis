@@ -31,5 +31,9 @@ Now, we generate another dataset, using the same dictionary as before, except wi
 Basically, "0" = "normal network (DNS on)"
            "1" = "DNS off"
            
+python3 preprocessForClassification.py dns_off_network.csv dictionary.csv 15 1 dns_off_dataset.p
+
+Now, we have two datasets. The first dataset has DNS turned on (normal_network_dataset.p). The second dataset has DNS turned off (dns_off_dataset.p). We will now combine these datasets into a single dataset and then feed that into our binary classification algorithm. We do this with the program
+
 
 

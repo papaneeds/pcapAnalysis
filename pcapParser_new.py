@@ -8,6 +8,7 @@
 import dpkt
 import datetime
 import socket
+import sys
 
 # Read in the files that have the definitions of the well known and registered
 # ports
@@ -34,8 +35,10 @@ for line in registeredPortsLines:
 
 registeredPortsFile.close()
 
-inputFilename = 'junk.pcap'
-outputFilename = 'junk.csv'
+# do a brutally simple command line argument extraction
+# argparse is probably a better way to go, but for now just
+# do this.
+[program, inputFilename, outputFilename] = sys.argv
 
 file_in = open(inputFilename, 'rb')
 pcap = dpkt.pcap.Reader(file_in)
@@ -70,21 +73,16 @@ for ts, buf in pcap:
 
     if isinstance(ip.data, dpkt.icmp.ICMP):
         info = 'ICMP'
-        #print(info)
-        #outString = timeStamp.isoformat() + ',' + typeAsString + ',,,' + notes
     elif isinstance(ip.data, dpkt.icmp6.ICMP6):
         info = 'ICMP6'
-        #outString = timeStamp.isoformat() + ',' + typeAsString + ',,,' + notes  
     elif isinstance(ip.data, dpkt.igmp.IGMP):
         # Get the protocol as a string
         proto = ip.get_proto(ip.p).__name__
         info = 'IGMP'
         ipsrc = socket.inet_ntoa(ip.src)        
-        ipdst = socket.inet_ntoa(ip.dst)
-        #outString = timeStamp.isoformat() + ',' + typeAsString + ',' + ipsrc + ',' + ipdst + ',' + proto + ',' + info          
+        ipdst = socket.inet_ntoa(ip.dst)     
     elif (eth.type==dpkt.ethernet.ETH_TYPE_IP or eth.type==dpkt.ethernet.ETH_TYPE_IP6):
         ipcounter += 1
-
         # Get the protocol as a string
         proto = ip.get_proto(ip.p).__name__
 
