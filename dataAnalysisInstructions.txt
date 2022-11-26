@@ -1,0 +1,35 @@
+The first step is to gather the data. We do this by running tcpdump. Because we don't want the actual contents of the packets, only the headers, we run tcpdump with the -s 96 option. This option only captures 96 bytes from the packets (which covers the header portion of the packet). 
+
+> sudo tcpdump -s 96 -w <outputFilename>.pcap
+
+This generates a file called <outputFilename>.pcap
+
+We then run a python program called pcapParser_new.py that parses the pcap file into a csv file with the fields:
+timestamp,type,source_ip,source_port,destination_ip,destination_port, protocol,notes
+The pcapParser_new.py file reads in two data files called "WellKnownPorts.txt" and "RegisteredPorts.txt". These two files were created by hand from the Wikipedia page on well-known and registered ports https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers. These files map well-known ports to various protocols (such as HTTPS, DNS, ICMP, etc). 
+The pcapParser_new.py file also reads in the pcap file that you want to process.
+Then, it tries to classify each packet by the well-known and registered ports.
+It outputs a csv file.
+
+> python3 pcapParser_new.py <inputFilename>.pcap <outputParsedCsvFilename>.csv
+
+The next step in the analysis is to create a "dictionary" of types of packets that appear in the csv file. This creates a "bag of words" which we can use to classify each packet for machine learning. This is accomplished by the createDictionary.py program. The createDictionary.py program looks through all the packets and finds all distinct values for the 'notes' and 'type' fields. The distinct values form the dictionary. This dictionary is then saved as a csv file called 'dictionary.csv' (which only has 1 column).
+
+>python3 createDictionary <inputFilename>.csv 
+
+The next step is to create an n-dimensional vector for each packet in the dataset, based on whether one of the n dictionary words appears in the packet. 
+Then, a union of these n-dimensional vectors for each of the packets over a timeInterval of "t" seconds creates the n-dimensional vector for that entire time interval. This n-dimensional vector describes the union of all the words that have appeared in packets that have been received in that timeInterval. These packets are labeled with a numeric classifier. The program "preprocessForClassification.py" is used to do this.
+It takes as inputs parsed csv file that pcapParser_new created, as well as the dictionary csv file, the timeInterval for the union of the packets, as well as the classification to apply to the packets (all packets get the same classification). The output is a python pickle file containing a "dataset". The 'data' portion of the dataset contains a dataframe with the n-dimensional vectors, whereas the 'target' portion of the dataset contains a Series with the classification. See the pages: https://www.learndatasci.com/glossary/binary-classification/ and https://towardsdatascience.com/logistic-regression-using-python-sklearn-numpy-mnist-handwriting-recognition-matplotlib-a6b31e2b166a for more details.
+
+python3 preprocessForClassification.py normal_network.csv dictionary.csv 15 0 normal_network_dataset.p
+
+The next step is to generate the training data for the dataset where DNS is turned off. This is done by running the program "removeLinesContainingRegex.py". This program takes the "normal" csv as input, and removes all occurrences of the lines that contain "DNS" (removes all DNS labelled packets).
+
+>python3 removeLinesContainingRegex.py normal_network.csv dns_off_network.csv DNS
+
+Now, we generate another dataset, using the same dictionary as before, except with the dns_off_network.csv. We will classify this dataset with a "1" (instead of a "0" as before (with DNS on)).
+Basically, "0" = "normal network (DNS on)"
+           "1" = "DNS off"
+           
+
+
