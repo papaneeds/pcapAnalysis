@@ -13,7 +13,7 @@ fpOut = open(outputFilename, "w")
 line = fpIn.readline()
 cnt = 0
 while line:
-        # Check to see if the line matches the regex
+    # Check to see if the line matches the regex
     if (not re.search(regularExpression, line)):
         fpOut.write(line)
     else:

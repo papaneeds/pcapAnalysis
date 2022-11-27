@@ -1,5 +1,8 @@
 # This python program pre-processes data for Machine
 # Learning classification
+# This program is meant to be used to create training datasets for the ML algorithms.
+# It outputs a dataframe of traininig vectors created from the entire trainingInputFilename
+# all at once at the end.
 
 from cmath import pi
 import pandas as pd

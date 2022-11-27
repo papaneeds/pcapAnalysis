@@ -37,5 +37,11 @@ Now, we have two datasets. The first dataset has DNS turned on (normal_network_d
 
 python3 binaryClassification_allModels.py normal_network_dataset.p dns_off_dataset.p outputTrainedModels.p
 
+Now that we have the trained models we can start feeding them with "streaming" data. The "streaming" data is really just pcaps that have been captured for timeInterval and then run through the pipeline. Let's see how this works.
+
+We capture a pcap file that is, say a couple of hours long. Then, we process it into a .csv. Then, we create timeInterval chunks of it and pass those along to the rest of the processing chain, and see how the model classifies that chunk.
+
+
+python3 preprocessForClassification_outputInChunks.py normal_network.csv dictionary.csv 15 0 chunk_dataset.p
 
 
