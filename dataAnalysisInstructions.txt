@@ -15,7 +15,7 @@ It outputs a csv file.
 
 The next step in the analysis is to create a "dictionary" of types of packets that appear in the csv file. This creates a "bag of words" which we can use to classify each packet for machine learning. This is accomplished by the createDictionary.py program. The createDictionary.py program looks through all the packets and finds all distinct values for the 'notes' and 'type' fields. The distinct values form the dictionary. This dictionary is then saved as a csv file called 'dictionary.csv' (which only has 1 column).
 
->python3 createDictionary <inputFilename>.csv 
+>python3 createDictionary.py <inputFilename>.csv 
 
 The next step is to create an n-dimensional vector for each packet in the dataset, based on whether one of the n dictionary words appears in the packet. 
 Then, a union of these n-dimensional vectors for each of the packets over a timeInterval of "t" seconds creates the n-dimensional vector for that entire time interval. This n-dimensional vector describes the union of all the words that have appeared in packets that have been received in that timeInterval. These packets are labeled with a numeric classifier. The program "preprocessForClassification.py" is used to do this.
