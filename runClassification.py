@@ -16,8 +16,10 @@ def applyModels(models, X, y):
 
         print("predictions=", predictions)
 
-        TN, FP, FN, TP = confusion_matrix(y, predictions).ravel()
-        #result = loaded_model.score(X_test, Y_test)
+        stuff = confusion_matrix(y, predictions).ravel()
+        print(stuff)
+
+        TN, FP, FN, TP = stuff
 
         print('True Positive(TP)  = ', TP)
         print('False Positive(FP) = ', FP)
@@ -53,8 +55,9 @@ def applyModel(model, X, y):
 [program, modelFileName, testDatasetFilename] = sys.argv
 
 # load the model from disk
-#models = pickle.load(open(modelFileName, 'rb'))
-model = pickle.load(open(modelFileName, 'rb'))
+models = pickle.load(open(modelFileName, 'rb'))
+ss_test = pickle.load(open('standardScaler.p', 'rb'))
+#model = pickle.load(open(modelFileName, 'rb'))
 
 # load the test dataset from disk
 dataSet = pickle.load(open(testDatasetFilename, 'rb'))
@@ -65,10 +68,9 @@ y = dataSet['target']
 print("X=", X, X.shape)
 print("y=", y, y.shape)
 
-ss = StandardScaler()
-X = ss.fit_transform(X)
+X = ss_test.transform(X)
 
-#applyModels(models, X, y)
+applyModels(models, X, y)
 
-applyModel(model, X, y)
+#applyModel(model, X, y)
 

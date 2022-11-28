@@ -108,5 +108,8 @@ for key in models.keys():
     #print('Accuracy= {:0.3f}, Precision= {:0.3f}, Recall= {:0.3f}'.format(accuracy[key], precision[key], recall[key]))
 
 # Now, save all the models to file
-pickle.dump(models['Logistic Regression'], open(outputModelsFilename, 'wb'))
+pickle.dump(models, open(outputModelsFilename, 'wb'))
 print('saved models to file=', outputModelsFilename)
+
+pickle.dump(ss_test, open('standardScaler.p', 'wb'))
+print('saved standard scaler to file=standardScaler.p')
