@@ -1,0 +1,22 @@
+Hypertext Transfer Protocol Secure (HTTPS)[48][49] uses TCP in versions 1.x and 2. HTTP/3 uses QUIC,[50] a transport protocol on top of UDP.
+
+Hypertext Transfer Protocol (HTTP)[48][49] uses TCP in versions 1.x and 2. HTTP/3 uses QUIC,[50] a transport protocol on top of UDP.
+Domain Name System (DNS)[36][11]
+ICMP6
+Multicast DNS (mDNS)[11]
+Simple Service Discovery Protocol (SSDP),[11] discovery of UPnP devices
+IGMP
+NetBIOS Datagram Service[11][68][69]
+Network Time Protocol (NTP), used for time synchronization[11]
+ICMP
+Web Services Dynamic Discovery (WS-Discovery), used by various components of Windows Vista and later
+Crestron Secure Terminal Port[403] - Crestron Electronics
+Jenkins, a continuous integration (CI) tool[395][396]
+NetBIOS Name Service, used for name registration and resolution[68][69]
+DHCPv6 client
+Link-Local Multicast Name Resolution (LLMNR), allows hosts to perform name resolution for hosts on the same local link (only provided by Windows Vista and Server 2008)
+Bootstrap Protocol (BOOTP) client;[11] also used by Dynamic Host Configuration Protocol (DHCP)
+Bootstrap Protocol (BOOTP) server;[11] also used by Dynamic Host Configuration Protocol (DHCP)
+IP
+ARP
+IP6
