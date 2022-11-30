@@ -111,5 +111,8 @@ for key in models.keys():
 pickle.dump(models, open(outputModelsFilename, 'wb'))
 print('saved models to file=', outputModelsFilename)
 
-pickle.dump(ss_test, open('standardScaler.p', 'wb'))
+# Note that you also have to save the scaler to file. Otherwise, you won't be able
+# to properly scale any subsequent test data.
+# See: https://machinelearningmastery.com/how-to-save-and-load-models-and-data-preparation-in-scikit-learn-for-later-use/
+pickle.dump(ss_train, open('standardScaler.p', 'wb'))
 print('saved standard scaler to file=standardScaler.p')

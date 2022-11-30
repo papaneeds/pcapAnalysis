@@ -24,6 +24,7 @@ def findDistinctValues(dictionary, df, column):
 # argparse is probably a better way to go, but for now just
 # do this.
 [program, inputFilename] = sys.argv
+print(inputFilename)
 
 df = pd.read_csv(inputFilename)
 

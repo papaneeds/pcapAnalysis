@@ -10,6 +10,21 @@ import datetime
 import socket
 import sys
 
+def check_for_ports(srcport, dstport, info):
+    # check to see if either the srcport or dstport is one of the well-known
+    # or registered ports. If it is then print that in the description
+    if (srcport in wellKnownPorts):
+        info = "srcport=" + str(srcport) + " " + wellKnownPorts[srcport]
+    elif (srcport in registeredPorts):
+        info = "srcport=" + str(srcport) + " " + registeredPorts[srcport]
+    elif (dstport in wellKnownPorts):
+        info = "dstport=" + str(dstport) + " " + wellKnownPorts[dstport]
+    elif (dstport in registeredPorts):
+        info = "dstport=" + str(dstport) + " " + registeredPorts[dstport]
+    else:
+        info = "unknown"
+    return info
+
 # Read in the files that have the definitions of the well known and registered
 # ports
 # These files were obtained from Wikipedia (after a bit of processing in Excel
@@ -22,7 +37,7 @@ wellKnownPortsLines = wellKnownPortsFile.readlines()
 
 for line in wellKnownPortsLines:
     port, description = line.split("\t")
-    wellKnownPorts[port] = description
+    wellKnownPorts[port] = description.rstrip().replace(',',' ')
 
 wellKnownPortsFile.close()
 
@@ -31,7 +46,7 @@ registeredPortsLines = registeredPortsFile.readlines()
 
 for line in registeredPortsLines:
     port, description = line.split("\t")
-    registeredPorts[port] = description
+    registeredPorts[port] = description.rstrip().replace(',',' ')
 
 registeredPortsFile.close()
 
@@ -52,8 +67,8 @@ cumulativeBytesCounter = 0
 ipcounter = 0
 
 for ts, buf in pcap:
-    info = ''
     outString = ''
+    info = ''
     timeStamp = ''
     typeAsString = ''
     ipsrc = ''
@@ -110,15 +125,4 @@ for ts, buf in pcap:
     file_out.write(outString + '\n')
 
 
-    def check_for_ports(srcport, dstport, info):
-        # check to see if either the srcport or dstport is one of the well-known
-        # or registered ports. If it is then print that in the description
-        if (srcport in wellKnownPorts):
-            info = wellKnownPorts[srcport]
-        elif (srcport in registeredPorts):
-            info = registeredPorts[srcport]
-        elif (dstport in wellKnownPorts):
-            info = wellKnownPorts[dstport]
-        elif (dstport in registeredPorts):
-            info = registeredPorts[dstport]
-        return info
+

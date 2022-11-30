@@ -56,7 +56,7 @@ def applyModel(model, X, y):
 
 # load the model from disk
 models = pickle.load(open(modelFileName, 'rb'))
-ss_test = pickle.load(open('standardScaler.p', 'rb'))
+ss = pickle.load(open('standardScaler.p', 'rb'))
 #model = pickle.load(open(modelFileName, 'rb'))
 
 # load the test dataset from disk
@@ -68,7 +68,7 @@ y = dataSet['target']
 print("X=", X, X.shape)
 print("y=", y, y.shape)
 
-X = ss_test.transform(X)
+X = ss.transform(X)
 
 applyModels(models, X, y)
 
